@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "699242922891",
+    "project_id": "dnd-combat-tracker-2ba40",
+    "storage_bucket": "dnd-combat-tracker-2ba40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:699242922891:android:f0b232ea3e29bc550e258e",
+        "android_client_info": {
+          "package_name": "com.combatracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "699242922891-09i71nt8csra67ibtomrcfsknb5jjc44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.combatracker",
+            "certificate_hash": "89d7c1796ea8dc2f3d652007391d198f553e0d10"
+          }
+        },
+        {
+          "client_id": "699242922891-nhiu6uceoha2qeojej4jjcf1n5fsm9r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8AVudJt4nhEMTIFbvr2ZjO7lB5n2L0Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "699242922891-nhiu6uceoha2qeojej4jjcf1n5fsm9r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
