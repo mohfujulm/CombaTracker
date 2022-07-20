@@ -12,7 +12,9 @@
   "dependencies": {
     "@react-native-firebase/app": "^15.1.1",
     "@react-native-firebase/auth": "^15.1.1",
+    "@react-navigation/bottom-tabs": "5.x",
     "@react-navigation/native": "^6.0.11",
+    "@react-navigation/native-stack": "^6.7.0",
     "react": "18.0.0",
     "react-is": "^18.2.0",
     "react-native": "0.69.1",
