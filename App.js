@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Button, Pressable, Animated } from 'react-native';
+import { Image, ImageBackground, StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from 'react-native-google-signin';
+import normalize from "./src/assets/components/fontScale"; 
 
 function App() {
   // Set an initializing state while Firebase connects
@@ -55,6 +56,7 @@ function App() {
     setUser(user);
   }
 
+  // Handler for signout
   function googleSignOut() {
     fadeOut();
 
@@ -66,38 +68,59 @@ function App() {
     });
   }
 
-  //listener for the authentication state
+  // listener for the authentication state
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
 
 
+  // Sign in Page
   if (!user) {
     return (
-      <View>  
-        <Text>Placeholder</Text>
+      <ImageBackground style = {styles.splash} resizeMode = "cover" source = {require('./src/assets/images/splash.png')}>
+      <View style = {styles.container}>  
+        <View style = {styles.logoContainer}>
+          <Image style = {styles.logo} source = {require('./src/assets/images/logo.png')}/>
+        </View>
 
-        <Button title = "Sign In With Google"
-                onPress = {signInWithGoogleAsync}
-          />
+        <View style = {styles.signInButtonContainer}>
+          <View style = {styles.GlogoContainer}>
+            <Image style = {styles.Glogo} source = {require('./src/assets/images/google.png')}/>
+          </View>
+          <Pressable style = {styles.googleButton}
+                     onPressIn = {fadeIn}
+                     onPressOut = {signInWithGoogleAsync}>  
+                  
+            <Animated.View style = {{opacity:animated}}>
+              <Text style = {styles.buttonText}> Sign in with Google</Text> 
+            </Animated.View> 
+          
+          </Pressable>
+        </View>
 
+        
       </View>
+      </ImageBackground>
     );
   }
 
+  //HOME SCREEN IF LOGGED IN
   return (
     <View style = {styles.container}>
       <Text> Hi {user.displayName}!</Text>
 
-      <Pressable style = {styles.pressableButton}
-                 onPressIn = {fadeIn}
-                 onPressOut = {googleSignOut}>  
-        <Animated.View style = {{opacity:animated}}>
-          <Text style = {styles.buttonText}> Log Out </Text> 
-        </Animated.View> 
-        
-      </Pressable>
+      <View style = {styles.signOutButtonContainer}>
+
+        <Pressable style = {styles.googleButton}
+                  onPressIn = {fadeIn}
+                  onPressOut = {googleSignOut}>  
+          <Animated.View style = {{opacity:animated}}>
+            <Text style = {styles.buttonText}> Log Out </Text> 
+          </Animated.View> 
+        </Pressable>
+
+      </View>
     </View>
   );
 }
@@ -105,22 +128,74 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
   },
 
+  splash: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  logo: {
+    width: normalize(300),
+    height: normalize(75),
+    marginTop: "11%",
+  },
+
+  logoContainer: {
+    flex: 6.5,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+
+  signInButtonContainer: {
+    flex: 4.7,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+    height: normalize(70),
+  },
+
+  signOutButtonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "white",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginBottom: normalize(50)
+  },
+
+  Glogo: {
+    width: normalize(25),
+    height: normalize(25),
+  },
+
+  GlogoContainer: {
+    elevation: 5,
+    padding: normalize(6),
+    backgroundColor: "white",
+  },
+
+  googleButton: {
+    backgroundColor: "white",
+    marginLeft: normalize(5),
+    elevation: 20,
+    padding: normalize(5),
+  },
+
   pressableButton: {
     borderRadius: 5,
-    padding: 5,
-    marginTop: 10, 
     backgroundColor: "white",
   },
 
   buttonText: {
-    fontSize: 20,
-    fontFamily: 'Montserrat Medium',
-    color: "black",
+    fontSize: normalize(18),
+    fontFamily: 'Book Antiqua',
+    color: "#424340",
   }
 });
 

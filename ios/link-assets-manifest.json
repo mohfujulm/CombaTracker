@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/Book Antiqua.ttf",
+      "sha1": "37447b2c2aec2d921bbbecdb2833e803f44dbd7a"
+    },
+    {
       "path": "src/assets/fonts/Montserrat ExtraLight.ttf",
       "sha1": "7c594b126941460bd2f3b47097fd6222f52277e7"
     },
