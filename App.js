@@ -3,8 +3,17 @@ import { Image, ImageBackground, StyleSheet, View, Text, Pressable, Animated } f
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from 'react-native-google-signin';
 import normalize from "./src/assets/components/fontScale"; 
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+//screens
+import Dashboard from "./src/screens/Dashboard";
+import Encounters from "./src/screens/Encounters";
 
 function App() {
+
+  const Tab = createBottomTabNavigator();
+
   // Set an initializing state while Firebase connects
   const [user, setUser] = useState();
 
@@ -56,18 +65,6 @@ function App() {
     setUser(user);
   }
 
-  // Handler for signout
-  function googleSignOut() {
-    fadeOut();
-
-    auth().signOut()
-    .then(function() {
-      console.log('User signout successful')
-    }, function(error) {
-      console.log('Signout failed')
-    });
-  }
-
   // listener for the authentication state
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -107,21 +104,37 @@ function App() {
 
   //HOME SCREEN IF LOGGED IN
   return (
-    <View style = {styles.container}>
-      <Text> Hi {user.displayName}!</Text>
-
-      <View style = {styles.signOutButtonContainer}>
-
-        <Pressable style = {styles.googleButton}
-                  onPressIn = {fadeIn}
-                  onPressOut = {googleSignOut}>  
-          <Animated.View style = {{opacity:animated}}>
-            <Text style = {styles.buttonText}> Log Out </Text> 
-          </Animated.View> 
-        </Pressable>
-
-      </View>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName = "Dashboard"
+                     screenOptions = {{headerShown: false, 
+                                       tabBarLabelStyle: {
+                                          fontSize: 10,
+                                          fontFamily: "Book Antiqua",
+                                          marginBottom: 2,
+                                        },
+                                       }}>
+        <Tab.Screen name = "Dashboard" 
+                    component = {Dashboard}
+                    options = {{
+                      tabBarIcon: () => {
+                        return (
+                          <Image style = {styles.tabIcon }
+                          source = {require('./src/assets/images/tome.png')}/>
+                        );
+                      },
+                    }} />
+        <Tab.Screen name = "Encounters" 
+                    component = {Encounters}
+                    options = {{
+                      tabBarIcon: () => {
+                        return (
+                          <Image style = {styles.tabIcon }
+                          source = {require('./src/assets/images/tome.png')}/>
+                        );
+                      },
+                    }} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -136,6 +149,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  tabIcon: {
+    width: normalize(20),
+    height: normalize(20),
   },
 
   logo: {
