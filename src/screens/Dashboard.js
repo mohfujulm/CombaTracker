@@ -58,13 +58,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'white',
+    backgroundColor: "#3f434c"
   },
 
   signOutButtonContainer: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "white",
     alignItems: "flex-end",
     justifyContent: "center",
     marginBottom: normalize(50)

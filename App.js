@@ -1,17 +1,22 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { Image, ImageBackground, StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from 'react-native-google-signin';
 import normalize from "./src/assets/components/fontScale"; 
+
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //screens
 import Dashboard from "./src/screens/Dashboard";
+import Compendium from "./src/screens/Compendium";
 import Encounters from "./src/screens/Encounters";
 
 function App() {
 
+  const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
 
   // Set an initializing state while Firebase connects
@@ -106,30 +111,47 @@ function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName = "Dashboard"
-                     screenOptions = {{headerShown: false, 
-                                       tabBarLabelStyle: {
-                                          fontSize: 10,
+                     tabBarOptions = {{ labelStyle: {
+                                          fontSize: normalize(10),
+                                          marginBottom: normalize(5),
                                           fontFamily: "Book Antiqua",
-                                          marginBottom: 2,
+                                          color: "white",
                                         },
-                                       }}>
+                                        style: {
+                                          height: normalize(45),
+                                        },
+                                        activeBackgroundColor: "#202225",
+                                        inactiveBackgroundColor: "#2f3136"
+
+                                     }}
+                     >
         <Tab.Screen name = "Dashboard" 
                     component = {Dashboard}
                     options = {{
                       tabBarIcon: () => {
                         return (
                           <Image style = {styles.tabIcon }
-                          source = {require('./src/assets/images/tome.png')}/>
+                          source = {require('./src/assets/images/home.png')}/>
                         );
                       },
                     }} />
+        <Tab.Screen name = "Compendium" 
+                    component = {Compendium}
+                    options = {{
+                    tabBarIcon: () => {
+                      return (
+                        <Image style = {styles.tabIcon }
+                        source = {require('./src/assets/images/tome.png')}/>
+                      );
+                    },
+                  }} />
         <Tab.Screen name = "Encounters" 
                     component = {Encounters}
                     options = {{
                       tabBarIcon: () => {
                         return (
                           <Image style = {styles.tabIcon }
-                          source = {require('./src/assets/images/tome.png')}/>
+                          source = {require('./src/assets/images/battle.png')}/>
                         );
                       },
                     }} />
@@ -152,8 +174,9 @@ const styles = StyleSheet.create({
   },
 
   tabIcon: {
-    width: normalize(20),
-    height: normalize(20),
+    width: normalize(19),
+    height: normalize(19),
+    marginTop: normalize(8),
   },
 
   logo: {
