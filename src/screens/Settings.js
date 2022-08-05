@@ -3,8 +3,7 @@ import { StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import normalize from "../assets/components/fontScale"; 
 import auth from '@react-native-firebase/auth';
 
-export function Dashboard() {
-
+export function Settings() {
   const animated = new Animated.Value(1);
 
   const fadeIn = () => {
@@ -38,6 +37,16 @@ export function Dashboard() {
     <View style = {styles.container}>
       <Text> Hi {auth().currentUser.email}!</Text>
 
+      
+      <View style = {styles.signOutButtonContainer}>
+        <Pressable style = {styles.googleButton}
+                  onPressIn = {fadeIn}
+                  onPressOut = {googleSignOut}>  
+          <Animated.View style = {{opacity:animated}}>
+            <Text style = {styles.buttonText}> Log Out </Text> 
+          </Animated.View> 
+        </Pressable>
+      </View>
 
     </View>
     );
@@ -49,6 +58,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#3f434c"
+  },
+
+  signOutButtonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginBottom: normalize(50)
+  },
+
+  googleButton: {
+    backgroundColor: "white",
+    marginLeft: normalize(5),
+    elevation: 20,
+    padding: normalize(5),
   },
 
   pressableButton: {
@@ -63,5 +87,4 @@ const styles = StyleSheet.create({
   }
 });
 
-
-export default Dashboard;
+export default Settings;
