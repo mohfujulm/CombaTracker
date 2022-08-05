@@ -1,9 +1,12 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { Image, ImageBackground, StyleSheet, View, Text, Pressable, Animated } from 'react-native';
+import { Button, Image, ImageBackground, StyleSheet, View, Text, Pressable, Animated } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from 'react-native-google-signin';
 import normalize from "./src/assets/components/fontScale"; 
+
+
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,6 +16,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from "./src/screens/Dashboard";
 import Compendium from "./src/screens/Compendium";
 import Encounters from "./src/screens/Encounters";
+import Settings from "./src/screens/Settings";
+
+
+
+function getHeaderTitle(route) {
+  // If the focused route is not found, we need to assume it's the initial screen
+  // This can happen during if there hasn't been any navigation inside the screen
+  // In our case, it's "Feed" as that's the first screen inside the navigator
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
+
+  switch (routeName) {
+    case 'Dashboard':
+      return 'Dashboard';
+    case 'Compendium':
+      return 'Compendium';
+    case 'Encounters':
+      return 'Encounters';
+  }
+}
 
 function App() {
 
@@ -107,11 +129,9 @@ function App() {
     );
   }
 
-  //HOME SCREEN IF LOGGED IN
-  return (
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName = "Dashboard"
-                     tabBarOptions = {{ labelStyle: {
+  function Home() {
+    return (
+      <Tab.Navigator  tabBarOptions = {{ labelStyle: {
                                           fontSize: normalize(10),
                                           marginBottom: normalize(5),
                                           fontFamily: "Book Antiqua",
@@ -119,12 +139,14 @@ function App() {
                                         },
                                         style: {
                                           height: normalize(45),
+                                          borderColor: "black",
+                                          borderWidth: 3,
                                         },
                                         activeBackgroundColor: "#202225",
                                         inactiveBackgroundColor: "#2f3136"
 
-                                     }}
-                     >
+                                    }}
+                    >
         <Tab.Screen name = "Dashboard" 
                     component = {Dashboard}
                     options = {{
@@ -135,6 +157,7 @@ function App() {
                         );
                       },
                     }} />
+
         <Tab.Screen name = "Compendium" 
                     component = {Compendium}
                     options = {{
@@ -145,6 +168,7 @@ function App() {
                       );
                     },
                   }} />
+
         <Tab.Screen name = "Encounters" 
                     component = {Encounters}
                     options = {{
@@ -155,7 +179,60 @@ function App() {
                         );
                       },
                     }} />
+
       </Tab.Navigator>
+    )
+  } 
+
+  //HOME SCREEN IF LOGGED IN
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name = "Home"
+                      component = {Home}
+                      options = { ({ route, navigation }) => ({
+                        headerTitle: getHeaderTitle(route),
+                        headerTitleStyle: {
+                          fontFamily: 'Book Antiqua',
+                          fontSize: normalize(16),
+                          color: "#cccccc",
+                        },
+                        headerTitleAlign: 'center',
+                        headerRight: () => {
+                          return (
+                            <Pressable style = {styles.headerButton}
+                                       onPress = {() => navigation.navigate('Settings')}>
+                              <Image style = {styles.headerButtonImage} source = {require('./src/assets/images/appIconCircle.png')}/>   
+                            </Pressable>
+                          )  
+                        },
+                        headerStyle: {
+                          backgroundColor: '#242e46',
+                          borderColor: "black",
+                          borderWidth: 0.1,
+                        },
+                        
+                      })}
+                      />
+
+        <Stack.Screen name = "Settings"
+                      component = {Settings}
+                      options = { ({ route, navigation }) => ({
+                        headerTitle: getHeaderTitle(route),
+                        headerTitleStyle: {
+                          fontFamily: 'Book Antiqua',
+                          fontSize: normalize(16),
+                          color: "#cccccc",
+                        },
+                        headerTitleAlign: 'center',
+                        headerStyle: {
+                          backgroundColor: '#242e46',
+                          borderColor: "black",
+                          borderWidth: 0.1,
+                        },
+                      })}
+                      />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
@@ -177,6 +254,15 @@ const styles = StyleSheet.create({
     width: normalize(19),
     height: normalize(19),
     marginTop: normalize(8),
+  },
+
+  headerButton: {
+    marginRight: normalize(14),
+  },
+
+  headerButtonImage: {
+    width: normalize(26),
+    height: normalize(26),
   },
 
   logo: {
