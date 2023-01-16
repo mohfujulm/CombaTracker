@@ -36,9 +36,9 @@ export function Dashboard() {
 
   return (
     <View style = {styles.container}>
-      <Text> Hi {auth().currentUser.email}!</Text>
 
-
+      <Text> Hi {auth().currentUser.displayName}!</Text>
+      
     </View>
     );
 }
